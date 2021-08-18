@@ -33,32 +33,7 @@ public class Empleada {
     @Column(name = "fecha_baja")
     private Date fechaBaja;
 
-    public enum EstadoEmpleadaEnum {
-        ACTIVO(1), 
-        BAJA(2);
-
-        private final int value;
-
-        // NOTE: Enum constructor tiene que estar en privado
-        private EstadoEmpleadaEnum(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public static EstadoEmpleadaEnum parse(int id) {
-            EstadoEmpleadaEnum status = null; // Default
-            for (EstadoEmpleadaEnum item : EstadoEmpleadaEnum.values()) {
-                if (item.getValue() == id) {
-                    status = item;
-                    break;
-                }
-            }
-            return status;
-        }
-    }
+    
 
     public Integer getEmpleadaId() {
         return empleadaId;
@@ -127,6 +102,34 @@ public class Empleada {
         this.fechaBaja = fechaBaja;
     }
 
+    
+
+    public enum EstadoEmpleadaEnum {
+        ACTIVO(1), 
+        BAJA(2);
+
+        private final int value;
+
+        // NOTE: Enum constructor tiene que estar en privado
+        private EstadoEmpleadaEnum(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static EstadoEmpleadaEnum parse(int id) {
+            EstadoEmpleadaEnum status = null; // Default
+            for (EstadoEmpleadaEnum item : EstadoEmpleadaEnum.values()) {
+                if (item.getValue() == id) {
+                    status = item;
+                    break;
+                }
+            }
+            return status;
+        }
+    }
     
     
 }
