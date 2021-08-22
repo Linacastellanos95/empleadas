@@ -25,17 +25,17 @@ public class EmpleadaController {
     CategoriaService categoriaService;
 
     @GetMapping("/empleados")
-    public ResponseEntity<List<Empleada>> traerEmpleadas(){
+    public ResponseEntity<List<Empleada>> traerEmpleadas() {
         return ResponseEntity.ok(service.traerEmpleadas());
     }
 
-    @PostMapping("/empleados")  
-    public ResponseEntity<?> crearEmpleada(@RequestBody InfoEmpleadaNueva empleadaInfo){
-        
+    @PostMapping("/empleados")
+    public ResponseEntity<?> crearEmpleada(@RequestBody InfoEmpleadaNueva empleadaInfo) {
+
         GenericResponse respuesta = new GenericResponse();
 
         Empleada empleada = new Empleada();
-        empleada.setNombre(empleadaInfo.nombre); 
+        empleada.setNombre(empleadaInfo.nombre);
         empleada.setEdad(empleadaInfo.edad);
         empleada.setSueldo(empleadaInfo.sueldo);
         empleada.setFechaAlta(new Date());
@@ -51,17 +51,36 @@ public class EmpleadaController {
 
         return ResponseEntity.ok(respuesta);
 
-         
     }
 
     @GetMapping("/empleados/{id}")
-    public ResponseEntity<Empleada> getEmpleadaPorId(@PathVariable Integer id){
+    public ResponseEntity<Empleada> getEmpleadaPorId(@PathVariable Integer id) {
         Empleada empleada = service.buscarEmpleada(id);
 
         return ResponseEntity.ok(empleada);
 
+    }
+
+    @DeleteMapping("/empleados/{id}")
+    public ResponseEntity<GenericResponse> bajaEmpleada(@PathVariable Integer id) {
+
+        service.bajaEmpleadaporId(id);
+
+        GenericResponse respuesta = new GenericResponse();
+        respuesta.isOk = true;
+        respuesta.message = "La empleada fue dada de baja con éxito";
+
+        return ResponseEntity.ok(respuesta);
 
     }
 
+    @GetMapping("/empleados/categorias/{catId}")
+    public ResponseEntity<List<Empleada>> obtenerEmpleadasPorCategoria(@PathVariable Integer catId){
+        List<Empleada> empleadas = service.traerEmpleadasPorCategoria(catId);
+        return ResponseEntity.ok(empleadas);
+    }
     
+    
+
+
 }

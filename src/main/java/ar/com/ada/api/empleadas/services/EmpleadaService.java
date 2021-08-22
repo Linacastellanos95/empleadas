@@ -5,7 +5,8 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.com.ada.api.empleadas.entities.Empleada;
+import ar.com.ada.api.empleadas.entities.*;
+import ar.com.ada.api.empleadas.entities.Empleada.EstadoEmpleadaEnum;
 import ar.com.ada.api.empleadas.repos.EmpleadaRepository;
 
 @Service
@@ -32,6 +33,20 @@ public class EmpleadaService {
             return resultado.get();
 
         return null;
+    }
+
+    //DELETE LOGICO, se mantiene en la BD pero con estatus.
+    public void bajaEmpleadaporId(Integer id) {
+        Empleada empleada = this.buscarEmpleada(id);
+        empleada.setEstado(EstadoEmpleadaEnum.BAJA);
+        empleada.setFechaBaja(new Date());
+
+        repo.save(empleada);
+    }
+
+    public List<Empleada> traerEmpleadasPorCategoria(Integer catId) {
+       Categoria categoria = categoriaService.buscarCategoria(catId);
+        return categoria.getEmpleadas();
     }
 
     
