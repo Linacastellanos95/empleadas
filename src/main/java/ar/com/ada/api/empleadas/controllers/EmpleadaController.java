@@ -1,5 +1,6 @@
 package ar.com.ada.api.empleadas.controllers;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.ada.api.empleadas.entities.*;
 import ar.com.ada.api.empleadas.models.request.InfoEmpleadaNueva;
+import ar.com.ada.api.empleadas.models.request.SueldoNuevoEmpleada;
 import ar.com.ada.api.empleadas.models.response.GenericResponse;
 import ar.com.ada.api.empleadas.services.CategoriaService;
 import ar.com.ada.api.empleadas.services.EmpleadaService;
@@ -70,7 +72,25 @@ public class EmpleadaController {
         return ResponseEntity.ok(empleadas);
     }
     
-    
+    @PutMapping("/empleados/{id}/sueldos")
+    public ResponseEntity<GenericResponse> modificarSueldo(@PathVariable Integer id, @RequestBody SueldoNuevoEmpleada sueldoNuevoInfo){
+        
+        //1) Buscar una empleada
+        Empleada empleada = service.buscarEmpleada(id);
+        //2) Setear su nuevo sueldo
+        empleada.setSueldo(sueldoNuevoInfo.sueldoNuevo);
+        //3) Guardar en la base de datos
+        service.guardar(empleada);
+
+        GenericResponse respuesta = new GenericResponse();
+
+        respuesta.isOk = true;
+        respuesta.message = "Sueldo actualizado";
+
+        return ResponseEntity.ok(respuesta);
+        
+    }
+
 
 
 }
