@@ -48,6 +48,9 @@ public class EmpleadaController {
     @GetMapping("/empleados/{id}")
     public ResponseEntity<Empleada> getEmpleadaPorId(@PathVariable Integer id) {
         Empleada empleada = service.buscarEmpleada(id);
+        if (empleada == null){
+            return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.ok(empleada);
 
